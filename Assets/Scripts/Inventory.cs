@@ -17,19 +17,30 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         // Singleton pattern
-        if (Instance == null)
+    if (Instance == null)
+    {
+        Instance = this;
+        // Preserve the entire Systems GameObject structure
+        Transform root = transform;
+        while (root.parent != null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            root = root.parent;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        DontDestroyOnLoad(root.gameObject);
+    }
+    else
+    {
+        Destroy(gameObject);
+    }
     }
 
     public bool AddItem(Item item)
     {
+        if (item == null)
+        {
+            Debug.LogError("Attempted to add null item to inventory");
+            return false;
+        }
         if (items.Count >= maxCapacity)
         {
             Debug.Log("Inventory is full!");

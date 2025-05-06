@@ -2108,7 +2108,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1547193078}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SimpleToggle, Assembly-CSharp
         m_MethodName: Toggle
         m_Mode: 1
@@ -4260,7 +4260,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &1547193073
+--- !u!1 &1501274592
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4268,85 +4268,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1547193077}
-  - component: {fileID: 1547193076}
-  - component: {fileID: 1547193075}
-  - component: {fileID: 1547193074}
-  - component: {fileID: 1547193078}
+  - component: {fileID: 1501274594}
+  - component: {fileID: 1501274593}
   m_Layer: 0
-  m_Name: Systems
+  m_Name: Initializer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1547193074
+--- !u!114 &1501274593
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547193073}
+  m_GameObject: {fileID: 1501274592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e928d5014de1a0429b1c52cc981d302, type: 3}
+  m_Script: {fileID: 11500000, guid: ff55b3e9f4a0c3d42ba83a24e268b22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1547193075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547193073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 705d785c3765bfc4c8c43baec26f291a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemIcons: []
---- !u!114 &1547193076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547193073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f340664f2c5e2845b45fb1888143eca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxCapacity: 99999
---- !u!4 &1547193077
+--- !u!4 &1501274594
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547193073}
+  m_GameObject: {fileID: 1501274592}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 310.9899, y: 194.76677, z: 0.20471084}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1547193078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547193073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfc68ff115178b944bab5eb1d1a9eb68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryPanel: {fileID: 1844152799}
-  mainHUDPanel: {fileID: 823298782}
 --- !u!1 &1793618401
 GameObject:
   m_ObjectHideFlags: 0
@@ -5423,7 +5380,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 1547193077}
   - {fileID: 330203029}
   - {fileID: 1793618406}
   - {fileID: 387329319}
+  - {fileID: 1501274594}

@@ -12,13 +12,13 @@ public class SimpleToggle : MonoBehaviour
             // Force the states we want - don't toggle
             inventoryPanel.SetActive(true);
             mainHUDPanel.SetActive(false);
-
+            
             // Start a coroutine to ensure the panel stays visible
             StartCoroutine(EnsurePanelVisibility());
             Debug.Log("Direct toggle called with persistent visibility");
         }
     }
-
+    
     private System.Collections.IEnumerator EnsurePanelVisibility()
     {
         // Check every frame for a short time to make sure the panel stays visible

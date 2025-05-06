@@ -15,7 +15,13 @@ public class ItemDatabase : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // Preserve the entire Systems GameObject structure
+            Transform root = transform;
+            while (root.parent != null)
+            {
+                root = root.parent;
+            }
+            DontDestroyOnLoad(root.gameObject);
         }
         else
         {
@@ -113,10 +119,19 @@ public class ItemDatabase : MonoBehaviour
 
     public List<Item> GetAllItems()
     {
+        if (itemTemplates == null)
+        {
+            Debug.LogError("Item templates dictionary is null");
+            return new List<Item>();
+        }
+
         List<Item> result = new List<Item>();
         foreach (var item in itemTemplates.Values)
         {
-            result.Add(item.Clone());
+            if (item != null)
+            {
+                result.Add(item.Clone());
+            }
         }
         return result;
     }

@@ -45,10 +45,61 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // In GameManager.cs
+    private static List<Item> cachedItems;
+
     private void AddRandomItem()
     {
-        if (ItemDatabase.Instance != null && Inventory.Instance != null)
+        try
         {
+            // Initialize cache if needed
+            if (cachedItems == null || cachedItems.Count == 0)
+            {
+                if (ItemDatabase.Instance != null)
+                {
+                    cachedItems = ItemDatabase.Instance.GetAllItems();
+                    Debug.Log($"Cached {cachedItems.Count} items for future use");
+                }
+                else
+                {
+                    Debug.LogError("ItemDatabase.Instance is null, cannot cache items");
+                    return;
+                }
+            }
+
+            // Use cached items instead of calling ItemDatabase.Instance again
+            if (cachedItems.Count > 0 && Inventory.Instance != null)
+            {
+                Item randomItem = cachedItems[Random.Range(0, cachedItems.Count)];
+                bool success = Inventory.Instance.AddItem(randomItem);
+                Debug.Log(success ? $"Added {randomItem.itemName} to inventory" : "Failed to add item");
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error in AddRandomItem: {e.Message}");
+        }
+    }
+
+    private IEnumerator AddRandomItemCoroutine()
+    {
+        // Wait for the next frame to avoid potential timing issues
+        yield return null;
+
+        try
+        {
+            if (ItemDatabase.Instance == null)
+            {
+                Debug.LogError("ItemDatabase.Instance is null");
+                yield break;
+            }
+
+            if (Inventory.Instance == null)
+            {
+                Debug.LogError("Inventory.Instance is null");
+                yield break;
+            }
+
             // Get all available items
             List<Item> allItems = ItemDatabase.Instance.GetAllItems();
 
@@ -67,6 +118,10 @@ public class GameManager : MonoBehaviour
             {
                 Debug.LogWarning("No items found in the database");
             }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error adding item: {e.Message}\n{e.StackTrace}");
         }
     }
 }

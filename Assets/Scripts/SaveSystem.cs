@@ -17,7 +17,13 @@ public class SaveSystem : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // Preserve the entire Systems GameObject structure
+            Transform root = transform;
+            while (root.parent != null)
+            {
+                root = root.parent;
+            }
+            DontDestroyOnLoad(root.gameObject);
         }
         else
         {
@@ -79,21 +85,37 @@ public class SaveSystem : MonoBehaviour
 
                 if (data != null)
                 {
-                    // Clear current inventory
-                    Inventory.Instance.ClearInventory();
-
-                    // Load items
-                    foreach (ItemData itemData in data.items)
+                    // Check if Inventory.Instance exists before using it
+                    if (Inventory.Instance != null)
                     {
-                        Item item = ItemDatabase.Instance.GetItemById(itemData.id);
-                        if (item != null)
+                        // Clear current inventory
+                        Inventory.Instance.ClearInventory();
+
+                        // Check if ItemDatabase.Instance exists before using it
+                        if (ItemDatabase.Instance != null)
                         {
-                            item.currentStackSize = itemData.stackSize;
-                            Inventory.Instance.AddItem(item);
+                            // Load items
+                            foreach (ItemData itemData in data.items)
+                            {
+                                Item item = ItemDatabase.Instance.GetItemById(itemData.id);
+                                if (item != null)
+                                {
+                                    item.currentStackSize = itemData.stackSize;
+                                    Inventory.Instance.AddItem(item);
+                                }
+                            }
+
+                            Debug.Log("Inventory loaded successfully!");
+                        }
+                        else
+                        {
+                            Debug.LogError("Failed to load inventory: ItemDatabase.Instance is null");
                         }
                     }
-
-                    Debug.Log("Inventory loaded successfully!");
+                    else
+                    {
+                        Debug.LogError("Failed to load inventory: Inventory.Instance is null");
+                    }
                 }
             }
             catch (System.Exception e)
@@ -108,16 +130,16 @@ public class SaveSystem : MonoBehaviour
     }
 }
 
-// Serializable classes for save data
-[System.Serializable]
-public class SaveData
-{
-    public ItemData[] items;
-}
+    // Serializable classes for save data
+    [System.Serializable]
+    public class SaveData
+    {
+        public ItemData[] items;
+    }
 
-[System.Serializable]
-public class ItemData
-{
-    public string id;
-    public int stackSize;
-}
+    [System.Serializable]
+    public class ItemData
+    {
+        public string id;
+        public int stackSize;
+    }
