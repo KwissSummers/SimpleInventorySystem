@@ -97,26 +97,44 @@ public class UIManager : MonoBehaviour
         RefreshInventoryUI();
     }
 
-    // Public methods that can be called from buttons
     public void ToggleInventory()
     {
         if (inventoryPanel)
         {
-            bool newState = !inventoryPanel.activeSelf;
-            inventoryPanel.SetActive(newState);
-
-            // Toggle the HUD visibility (opposite of inventory)
-            if (mainHUDPanel)
-            {
-                mainHUDPanel.SetActive(!newState);
-            }
-
-            if (inventoryPanel.activeSelf)
-            {
-                RefreshInventoryUI();
-            }
+            StartCoroutine(ToggleInventoryRoutine());
+        }
+        else
+        {
+            Debug.LogError("Inventory Panel reference is missing!");
         }
     }
+
+    private IEnumerator ToggleInventoryRoutine()
+    {
+        // Wait for end of frame to avoid conflicts with other events
+        yield return new WaitForEndOfFrame();
+
+        bool newState = !inventoryPanel.activeSelf;
+        inventoryPanel.SetActive(newState);
+        Debug.Log("Inventory Panel active state set to: " + newState);
+
+        // Toggle the HUD visibility
+        if (mainHUDPanel)
+        {
+            mainHUDPanel.SetActive(!newState);
+            Debug.Log("Main HUD Panel active state set to: " + !newState);
+        }
+
+        // Wait another frame before refreshing
+        yield return new WaitForEndOfFrame();
+
+        if (inventoryPanel.activeSelf)
+        {
+            Debug.Log("Refreshing Inventory UI");
+            RefreshInventoryUI();
+        }
+    }
+
     // Replace the single SetCategoryFilter method with individual methods for each category
     public void FilterAll()
     {
@@ -177,11 +195,16 @@ public class UIManager : MonoBehaviour
         }
 
         // Clear existing slots
+        // In RefreshInventoryUI, before clearing slots:
         foreach (GameObject slot in instantiatedSlots)
         {
+            ItemSlotUI slotUI = slot.GetComponent<ItemSlotUI>();
+            if (slotUI != null)
+            {
+                slotUI.OnItemClicked -= SelectItem; // Unsubscribe first
+            }
             Destroy(slot);
         }
-        instantiatedSlots.Clear();
 
         if (Inventory.Instance == null)
         {
